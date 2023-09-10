@@ -10,7 +10,7 @@ const SelectCinema = () => {
           method="get"
           autocomplete="off"
         >
-          <div className="pseudo-multi-select cinemas">
+          <div className="pseudo-multi-select cinemas active">
             <span
               className="label"
               data-none="Select Your Cinema(s)"
@@ -18,7 +18,7 @@ const SelectCinema = () => {
             >
               Select Your Cinema(s)
             </span>
-            <div className="dropdown">
+            <div className="dropdown" style={{ display: "block" }}>
               <div className="scroll has-toolbar">
                 <ol className="values">
                   <li>

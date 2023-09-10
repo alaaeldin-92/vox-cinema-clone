@@ -18429,7 +18429,7 @@ html {
   background-color: var(--color-book-tickets-background);
   color: #fff;
   color: var(--color-book-tickets-text);
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   max-width: inherit;
   width: 100%;
 }
