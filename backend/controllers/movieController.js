@@ -27,10 +27,14 @@ const getMovie = async (req, res) => {
 
 // create a new movie
 const createMovie = async (req, res) => {
-  const { title, cover_url, yt_url, pg, language, description } = req.body;
+  const { nameId, title, cover_url, yt_url, pg, language, description } =
+    req.body;
 
   let emptyFields = [];
 
+  if (!nameId) {
+    emptyFields.push("nameId");
+  }
   if (!title) {
     emptyFields.push("title");
   }
@@ -58,6 +62,7 @@ const createMovie = async (req, res) => {
   // add to the database
   try {
     const movie = await Movie.create({
+      nameId,
       title,
       cover_url,
       yt_url,

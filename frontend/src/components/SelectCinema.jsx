@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SelectCinema = () => {
+  const [cinemaActive, setCinemaActive] = useState(false);
+  const [moviesActive, setMoviesActive] = useState(false);
+
+  const toggleCinemaClass = () => {
+    setCinemaActive(!cinemaActive);
+    setMoviesActive(false);
+  };
+
+  const toggleMovieClass = () => {
+    setMoviesActive(!moviesActive);
+    setCinemaActive(false);
+  };
+
   return (
     <section className="book-tickets hide-embed">
       <nav>
@@ -10,7 +23,12 @@ const SelectCinema = () => {
           method="get"
           autocomplete="off"
         >
-          <div className="pseudo-multi-select cinemas active">
+          <div
+            className={`pseudo-multi-select cinemas ${
+              cinemaActive ? "active" : ""
+            } `}
+            onClick={toggleCinemaClass}
+          >
             <span
               className="label"
               data-none="Select Your Cinema(s)"
@@ -18,7 +36,10 @@ const SelectCinema = () => {
             >
               Select Your Cinema(s)
             </span>
-            <div className="dropdown" style={{ display: "block" }}>
+            <div
+              className="dropdown"
+              style={cinemaActive ? { display: "block" } : {}}
+            >
               <div className="scroll has-toolbar">
                 <ol className="values">
                   <li>
@@ -235,7 +256,12 @@ const SelectCinema = () => {
             </div>
           </div>
 
-          <div className="pseudo-multi-select movies">
+          <div
+            className={`pseudo-multi-select movies ${
+              moviesActive ? "active" : ""
+            } `}
+            onClick={toggleMovieClass}
+          >
             <span
               className="label"
               data-none="Select Your Movie(s)"
@@ -244,7 +270,10 @@ const SelectCinema = () => {
             >
               Select Your Movie(s)
             </span>
-            <div className="dropdown">
+            <div
+              className="dropdown"
+              style={moviesActive ? { display: "block" } : {}}
+            >
               <div className="scroll has-toolbar">
                 <div className="pre-selection">
                   <a className="action primary outline all">Any Movie</a>
