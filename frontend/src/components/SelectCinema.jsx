@@ -15,7 +15,7 @@ const SelectCinema = () => {
   };
 
   return (
-    <section className="book-tickets hide-embed">
+    <section>
       <nav>
         <form
           className="quick-filter"
