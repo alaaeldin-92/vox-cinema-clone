@@ -28,8 +28,6 @@ const NewMovieForm = () => {
       description,
     };
 
-    console.log(movie);
-
     const response = await fetch("/api/movies", {
       method: "POST",
       body: JSON.stringify(movie),

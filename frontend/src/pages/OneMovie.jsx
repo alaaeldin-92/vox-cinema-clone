@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import SelectCinema from "../components/SelectCinema";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const OneMovie = () => {
   const [movies, setMovies] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchMovie = async () => {
       const response = await fetch("/api/movies/" + id);
       const json = await response.json();
@@ -18,6 +21,8 @@ const OneMovie = () => {
 
   return (
     <div>
+      <Header />
+
       <SelectCinema />
 
       {movies === null && <div>Loading</div>}
@@ -86,6 +91,8 @@ const OneMovie = () => {
             <hr className="dashed my-[40px]"></hr>
           </section>
         ))}
+
+      <Footer />
     </div>
   );
 };

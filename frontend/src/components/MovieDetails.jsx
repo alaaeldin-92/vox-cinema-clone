@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const MovieDetails = ({ movie }) => {
   return (
-    <Link to={"/movies/" + movie.nameId} className="my-[120px]">
+    <Link to={"/movies/" + movie.nameId}>
       <div className="flex flex-col gap-4">
         <img width="100%" src={movie.cover_url} />
         <div className="grid grid-flow-col items-center">
@@ -15,13 +15,6 @@ const MovieDetails = ({ movie }) => {
           </div>
         </div>
 
-        {/* <div className="border-2 border-white rounded-full w-[50px] h-[50px] text-[12px] text-center leading-none grid place-content-center justify-self-end">
-          <div>
-            PG <br /> {movie.pg}
-          </div>
-        </div> */}
-
-        {/* <div>Language: {movie.language}</div> */}
         <Link
           to={"/movies/" + movie.nameId + "#showtimes"}
           className="bg-[#d40e7d] text-white text-md font-normal rounded-md py-[15px] text-center"

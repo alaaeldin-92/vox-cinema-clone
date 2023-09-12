@@ -3,6 +3,7 @@ const {
   getMovies,
   getMovie,
   createMovie,
+  uploadMovieCover,
   deleteMovie,
   updateMovie,
 } = require("../controllers/movieController");
@@ -17,6 +18,9 @@ router.get("/:id", getMovie);
 
 // POST a new movie
 router.post("/", createMovie);
+
+// UPLOAD a new movie cover image
+router.post("/upload", uploadMovieCover);
 
 // DELETE a movie
 router.delete("/:id", deleteMovie);

@@ -1,5 +1,6 @@
 const Movie = require("../models/movieModel");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 // get all movies
 const getMovies = async (req, res) => {
@@ -29,17 +30,13 @@ const getMovie = async (req, res) => {
 const createMovie = async (req, res) => {
   const { nameId, title, cover_url, yt_url, pg, language, description } =
     req.body;
-
   let emptyFields = [];
 
-  if (!nameId) {
-    emptyFields.push("nameId");
-  }
   if (!title) {
     emptyFields.push("title");
   }
   if (!cover_url) {
-    emptyFields.push("cover_url");
+    emptyFields.push("avatar");
   }
   if (!yt_url) {
     emptyFields.push("yt_url");
@@ -57,10 +54,7 @@ const createMovie = async (req, res) => {
     return res
       .status(400)
       .json({ error: "Please fill in all fields", emptyFields });
-  }
-
-  // add to the database
-  try {
+  } else {
     const movie = await Movie.create({
       nameId,
       title,
@@ -70,9 +64,28 @@ const createMovie = async (req, res) => {
       language,
       description,
     });
-    res.status(200).json(movie);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(200).json({ movie });
+  }
+};
+
+// upload a new movie cover image
+const uploadMovieCover = async (req, res) => {
+  let emptyFields = [];
+  if (req.files) {
+    const { avatar } = req.files;
+
+    fs.exists("../frontend/public/assets/" + avatar.name, (e) => {
+      if (!e) {
+        console.log("doesnt exist!");
+        avatar.mv("../frontend/public/assets/" + avatar.name);
+      }
+    });
+    res.status(200).json({ fileName: avatar.name });
+  } else {
+    emptyFields.push("avatar");
+    return res
+      .status(400)
+      .json({ error: "Please upload a cover photo.", emptyFields });
   }
 };
 
@@ -119,6 +132,7 @@ module.exports = {
   getMovies,
   getMovie,
   createMovie,
+  uploadMovieCover,
   deleteMovie,
   updateMovie,
 };

@@ -3,13 +3,14 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const movieRoutes = require("./routes/movies");
+const fileUpload = require("express-fileupload");
 
 // express app
 const app = express();
 
 // middleware
 app.use(express.json());
-
+app.use(fileUpload());
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();

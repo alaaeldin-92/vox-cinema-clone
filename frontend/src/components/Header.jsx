@@ -1,4 +1,5 @@
 import React from "react";
+import { AiFillCaretDown } from "react-icons/ai";
 
 const Header = () => {
   return (
@@ -70,17 +71,13 @@ const Header = () => {
             <li class="heading hide-desktop">Menu</li>
             <li class="has-children">
               <a
-                class=""
+                className="flex items-center gap-1"
                 href=""
                 data-google-category=""
                 data-uuid="d83146b3-9798-4be4-a89a-a60ad7fbe79c"
               >
-                MOVIES{" "}
-                <span
-                  aria-hidden="true"
-                  class="iconic"
-                  data-glyph="caret-bottom"
-                ></span>
+                <div>MOVIES</div>
+                <AiFillCaretDown />
               </a>
               <ul>
                 <li
@@ -112,17 +109,13 @@ const Header = () => {
             </li>
             <li class="has-children">
               <a
-                class=""
+                className="flex items-center gap-1"
                 href=""
                 data-google-category=""
                 data-uuid="8df47b37-14bc-4225-99d6-37d3eab4c08e"
               >
-                FOOD &amp; DRINKS{" "}
-                <span
-                  aria-hidden="true"
-                  class="iconic"
-                  data-glyph="caret-bottom"
-                ></span>
+                <div>FOOD &amp; DRINKS</div>
+                <AiFillCaretDown />
               </a>
               <ul>
                 <li
@@ -165,17 +158,13 @@ const Header = () => {
             </li>
             <li class="has-children">
               <a
-                class=""
+                className="flex items-center gap-1"
                 href="/ways-to-watch/summary"
                 data-google-category=""
                 data-uuid="f880d2c1-0605-4e2e-9fad-e3671038289b"
               >
-                WAYS TO WATCH{" "}
-                <span
-                  aria-hidden="true"
-                  class="iconic"
-                  data-glyph="caret-bottom"
-                ></span>
+                <div>WAYS TO WATCH</div>
+                <AiFillCaretDown />
               </a>
               <ul>
                 <li
@@ -267,17 +256,13 @@ const Header = () => {
             </li>
             <li class="has-children">
               <a
-                class=""
+                className="flex items-center gap-1"
                 href="/ticket-offer/summary"
                 data-google-category=""
                 data-uuid="4dce1e46-af3a-4fad-a4bd-f33a00dbb508"
               >
-                TICKET OFFERS{" "}
-                <span
-                  aria-hidden="true"
-                  class="iconic"
-                  data-glyph="caret-bottom"
-                ></span>
+                <div>TICKET OFFERS</div>
+                <AiFillCaretDown />
               </a>
               <ul>
                 <li
@@ -297,29 +282,7 @@ const Header = () => {
                     ADCB Offers
                   </a>
                 </li>
-                <li class="">
-                  <a
-                    class=""
-                    href="/ticket-offer/fab-share"
-                    data-google-category=""
-                  >
-                    FAB SHARE Offers
-                  </a>
-                </li>
-                <li class="">
-                  <a
-                    class=""
-                    href="/ticket-offer/citibank"
-                    data-google-category=""
-                  >
-                    Citibank Offers
-                  </a>
-                </li>
-                <li class="">
-                  <a class="" href="/ticket-offer/cbd" data-google-category="">
-                    CBD Offers
-                  </a>
-                </li>
+
                 <li class="">
                   <a
                     class=""

@@ -7,6 +7,17 @@
 :root {
   --primary: #1aac83;
   --error: #e7195a;
+  --background: #1f1f1f;
+}
+
+body {
+  color: white;
+  background-color: var(--background);
+}
+
+input {
+  background-color: var(--background);
+  border: 1px solid grey;
 }
 
 a,
@@ -38,38 +49,104 @@ code {
   padding-left: 20px;
   border-style: solid;
   border-color: #d40e7d;
+  font-size: 1.3em;
 }
 
-label,
-input {
+*,
+*:focus {
+  outline: none;
+}
+
+.form {
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 150px;
+  font-family: sans-serif;
+  background: #fff;
+}
+.form-item {
+  position: relative;
+  margin-bottom: 15px;
+}
+.form-item input {
   display: block;
+  width: 400px;
+  height: 40px;
+  background: transparent;
+  border: solid 1px #ccc;
+  transition: all 0.3s ease;
+  padding: 0 15px;
 }
-input {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+.form-item input:focus {
+  border-color: blue;
 }
-form button {
-  background: var(--primary);
-  border: 0;
-  color: #fff;
-  padding: 10px;
-  font-family: "Poppins";
-  border-radius: 4px;
-  cursor: pointer;
+.form-item label {
+  position: absolute;
+  cursor: text;
+  z-index: 2;
+  top: 13px;
+  left: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  background: #fff;
+  padding: 0 10px;
+  color: #999;
+  transition: all 0.3s ease;
 }
+.form-item input:focus + label,
+.form-item input:valid + label {
+  font-size: 11px;
+  top: -5px;
+}
+.form-item input:focus + label {
+  color: blue;
+}
+
 div.error {
   padding: 10px;
   background: #ffefef;
-  border: 1px solid var(--error);
+  border: 1px solid var(--error) !important;
   color: var(--error);
   border-radius: 4px;
   margin: 20px 0;
 }
 input.error {
-  border: 1px solid var(--error);
+  border: 1px solid var(--error) !important;
+}
+
+.addMovieInput {
+  width: 100%;
+  color: white;
+  height: 50px;
+  background-color: #171717;
+  padding: 12px;
+  border: 1px solid white;
+}
+
+.addMovieInput:focus {
+  background-color: black;
+}
+
+.addMovieInput::placeholder {
+  color: #eeeeee;
+}
+
+/* select movies .jsx */
+
+.book-tickets {
+  background-color: #3e454b;
+  background-color: var(--color-book-tickets-background);
+  color: #fff;
+  color: var(--color-book-tickets-text);
+  margin-bottom: 30px;
+  max-width: inherit;
+  width: 100%;
+}
+
+header > section,
+main > section,
+footer > section {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
 }

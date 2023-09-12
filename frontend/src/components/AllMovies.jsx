@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from "react";
 import { MoviesContext } from "../context/MoviesContext";
 import MovieDetails from "./MovieDetails";
+import AllMoviesSkeleton from "./AllMoviesSkeleton";
+// import AllMoviesSkeleton from "./AllMoviesSkeleton";
 
 const AllMovies = () => {
   const { movies, dispatch } = useContext(MoviesContext);
@@ -10,8 +12,15 @@ const AllMovies = () => {
       const response = await fetch("/api/movies");
       const json = await response.json();
 
+      // if (response.ok) {
+      //   dispatch({ type: "SET_MOVIES", payload: json });
+      // }
+
       if (response.ok) {
-        dispatch({ type: "SET_MOVIES", payload: json });
+        const timer = setTimeout(() => {
+          dispatch({ type: "SET_MOVIES", payload: json });
+        }, 1000);
+        return () => clearTimeout(timer);
       }
     };
 
@@ -20,7 +29,13 @@ const AllMovies = () => {
 
   return (
     <div>
-      <div className="mx-auto max-w-[900px] grid grid-cols-3 gap-16">
+      {!movies && (
+        <div className="mx-auto max-w-[900px] grid grid-cols-3 gap-16 my-[120px]">
+          <AllMoviesSkeleton />
+        </div>
+      )}
+
+      <div className="mx-auto max-w-[900px] grid grid-cols-3 gap-16 my-[120px]">
         {movies &&
           movies.map((movie) => <MovieDetails movie={movie} key={movie._id} />)}
       </div>

@@ -6,6 +6,8 @@ export const AdminMovieEdit = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const fetchMovie = async () => {
       const response = await fetch("/api/movies/" + id);
       const json = await response.json();
