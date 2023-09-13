@@ -22,8 +22,9 @@ const OneMovie = () => {
   return (
     <div>
       <Header />
+      <hr className="dashed my-[40px]"></hr>
 
-      <SelectCinema />
+      {/* <SelectCinema /> */}
 
       {movies === null && <div>Loading</div>}
 

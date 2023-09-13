@@ -15,7 +15,7 @@ const SelectCinema = () => {
   };
 
   return (
-    <section>
+    <section className="book-tickets hide-embed py-4">
       <nav>
         <form
           className="quick-filter"

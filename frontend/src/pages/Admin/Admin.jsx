@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { MoviesContext } from "../../context/MoviesContext";
 import { Link } from "react-router-dom";
 import {
@@ -13,14 +13,10 @@ import AllMoviesSkeleton from "../../components/Admin/AllMoviesSkeleton";
 const Admin = () => {
   const { movies, dispatch } = useContext(MoviesContext);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const [loading, setLoading] = useState(true);
 
-  const [orderbyActive, setOrderByActive] = useState(false);
-  const toggleOrderBy = () => {
-    setOrderByActive(!orderbyActive);
-  };
+  const orderType = useRef(null);
+  const orderParameter = useRef(null);
 
   const [activeTab, setActiveTab] = useState("movies");
   const [filteredList, setFilteredList] = useState(null);
@@ -30,7 +26,6 @@ const Admin = () => {
     const query = event.target.value;
     // Create copy of item list
     let updatedList = movies;
-    console.log(updatedList[0].title);
     // Include all elements which includes the search query
     updatedList = updatedList.filter((item) => {
       return (
@@ -44,7 +39,42 @@ const Admin = () => {
     setFilteredList(updatedList);
   };
 
+  const handleOrderBy = (e) => {
+    setLoading(true);
+
+    let updatedList = movies;
+
+    if (orderType.current.value === "asc") {
+      if (orderParameter.current.value === "mostRecent") {
+        updatedList = [...movies].sort((a, b) =>
+          a.createdAt.localeCompare(b.createdAt)
+        );
+      }
+    } else {
+      // descending
+
+      if (orderParameter.current.value === "mostRecent") {
+        updatedList = [...movies].sort((a, b) =>
+          b.createdAt.localeCompare(a.createdAt)
+        );
+      }
+
+      // updatedList.sort((a, b) =>
+      //   b[orderParameter] > a[orderParameter] ? 1 : -1
+      // );
+    }
+
+    setFilteredList(updatedList);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  };
+
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const fetchMovies = async () => {
       const response = await fetch("/api/movies");
       const json = await response.json();
@@ -58,6 +88,7 @@ const Admin = () => {
         const timer = setTimeout(() => {
           dispatch({ type: "SET_MOVIES", payload: json });
           setFilteredList(json);
+          setLoading(false);
         }, 1000);
         return () => clearTimeout(timer);
       }
@@ -69,7 +100,7 @@ const Admin = () => {
     <div>
       <Header />
 
-      <div className="max-w-[1200px] my-[120px] p-2 mx-auto grid grid-cols-6 gap-6">
+      <div className="max-w-[1200px] my-[100px] p-2 mx-auto grid grid-cols-6 gap-6">
         <div className="col-span-1">
           <div className="flex flex-col gap-5 sticky top-[40px]">
             <div
@@ -125,30 +156,49 @@ const Admin = () => {
           </div>
         </div>
 
-        <div className="col-span-5">
-          <div className="flex flex-row gap-8 mb-[60px] h-[60px]">
-            <div className="search-movie">
+        <div className="col-span-5  ">
+          <div className="flex flex-row gap-8 mb-[60px] h-[50px] place-content-between">
+            <div className="relative">
+              <input
+                placeholder="Search for a movie"
+                style={{
+                  paddingLeft: "45px",
+                  maxHeight: "200px",
+                  height: "50px",
+                }}
+                id="search"
+                onChange={filterBySearch}
+              />
               <label
                 htmlFor="search"
-                className="relative left-[30px] top-[20px]"
+                className="absolute left-[15px] top-[18px]"
               >
                 <AiOutlineSearch />
               </label>
-              <input
-                placeholder="Search for a movie"
-                style={{ padding: "25px 0px", paddingLeft: "40px" }}
-                id="search"
-                onChange={filterBySearch}
-              ></input>
             </div>
 
-            <div className="flex flex-row gap-8 items-center mx-auto  border-[1px] border-[#474749] p-6">
-              <div>Most Recent</div>
-              <AiFillCaretDown />
-            </div>
+            <select
+              className="custom-select"
+              name="orderParameter"
+              ref={orderParameter}
+              onChange={handleOrderBy}
+            >
+              <option value="mostRecent">Most Recent</option>
+              <option value="bestSeller">Best Seller</option>
+            </select>
+
+            <select
+              className="custom-select"
+              name="orderType"
+              ref={orderType}
+              onChange={handleOrderBy}
+            >
+              <option value="desc">Desc</option>
+              <option value="asc">Asc</option>
+            </select>
 
             <Link
-              className="cursor-pointer bg-[#d40e7d] text-white mx-auto text-md px-[14px] font-bold flex gap-2 items-center"
+              className="cursor-pointer bg-[#d40e7d] text-white text-md px-[14px] font-bold flex gap-2 items-center"
               to="/admin/movies/add"
             >
               <div>Add Movie</div>
@@ -157,11 +207,11 @@ const Admin = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-6">
-            {!movies && <AllMoviesSkeleton />}
+            {loading && <AllMoviesSkeleton />}
 
-            {movies &&
+            {!loading &&
               filteredList.map((movie) => (
-                <Link to={"movies/" + movie.nameId} key={movie._id}>
+                <Link to={"/admin/movies/" + movie.nameId} key={movie._id}>
                   <img width="100%" src={movie.cover_url} />
                   <div className="grid grid-flow-col items-center mt-[16px]">
                     <div>{movie.title}</div>

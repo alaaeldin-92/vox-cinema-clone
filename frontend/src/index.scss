@@ -10,10 +10,10 @@
   --background: #1f1f1f;
 }
 
-body {
+/* body {
   color: white;
   background-color: var(--background);
-}
+} */
 
 input {
   background-color: var(--background);
@@ -24,8 +24,8 @@ a,
 a:hover,
 a:focus,
 a:active {
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
 body {
@@ -50,56 +50,6 @@ code {
   border-style: solid;
   border-color: #d40e7d;
   font-size: 1.3em;
-}
-
-*,
-*:focus {
-  outline: none;
-}
-
-.form {
-  width: 500px;
-  margin: 0 auto;
-  margin-top: 150px;
-  font-family: sans-serif;
-  background: #fff;
-}
-.form-item {
-  position: relative;
-  margin-bottom: 15px;
-}
-.form-item input {
-  display: block;
-  width: 400px;
-  height: 40px;
-  background: transparent;
-  border: solid 1px #ccc;
-  transition: all 0.3s ease;
-  padding: 0 15px;
-}
-.form-item input:focus {
-  border-color: blue;
-}
-.form-item label {
-  position: absolute;
-  cursor: text;
-  z-index: 2;
-  top: 13px;
-  left: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  background: #fff;
-  padding: 0 10px;
-  color: #999;
-  transition: all 0.3s ease;
-}
-.form-item input:focus + label,
-.form-item input:valid + label {
-  font-size: 11px;
-  top: -5px;
-}
-.form-item input:focus + label {
-  color: blue;
 }
 
 div.error {
@@ -131,22 +81,71 @@ input.error {
   color: #eeeeee;
 }
 
-/* select movies .jsx */
-
-.book-tickets {
-  background-color: #3e454b;
-  background-color: var(--color-book-tickets-background);
-  color: #fff;
-  color: var(--color-book-tickets-text);
-  margin-bottom: 30px;
-  max-width: inherit;
-  width: 100%;
+/* cover image admin edit */
+.movie-cover {
+  position: relative;
+  height: 100%;
 }
 
-header > section,
-main > section,
-footer > section {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
+.movie-cover-image {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.movie-cover-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #000000;
+}
+
+.movie-cover:hover .movie-cover-overlay {
+  opacity: 0.6;
+}
+
+.movie-cover-overlay-text {
+  color: white;
+  font-size: 42px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* custom select dropdown in admin.jsx */
+
+.custom-select {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  width: 200px !important;
+  height: 100% !important;
+  padding: 0 4em 0px 1em;
+  border: 1px solid #474749;
+  cursor: pointer;
+
+  option {
+    border: 1px solid #474749;
+    padding: 20px 0px !important;
+    min-height: 1.2em;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-expand {
+    display: none;
+  }
 }

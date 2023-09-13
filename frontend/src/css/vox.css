@@ -11949,7 +11949,7 @@ select {
   display: inline-block;
   font-size: 16px;
   margin-bottom: 0;
-  max-height: 39px;
+  /* max-height: 39px; */
   max-width: 100%;
   padding: 9px 10px;
   width: 350px;

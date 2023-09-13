@@ -1,4 +1,6 @@
 import React from "react";
+import { ImFacebook, ImTwitter, ImYoutube } from "react-icons/im";
+import { FiInstagram } from "react-icons/fi";
 
 const Footer = () => {
   return (
@@ -10,46 +12,41 @@ const Footer = () => {
               VOX Cinemas
             </a>
 
-            <div class="follow-us">
-              <h5>Stay in touch</h5>
-              <ul class="social-networks follow">
-                <li>
-                  <a
-                    class="facebook"
-                    href="https://www.facebook.com/voxcinemas"
-                    title="Follow us on Facebook"
-                  >
-                    Facebook
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="twitter"
-                    href="https://www.twitter.com/voxcinemas"
-                    title="Follow us on Twitter"
-                  >
-                    Twitter
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="instagram"
-                    href="https://www.instagram.com/voxcinemas"
-                    title="Follow us on Instagram"
-                  >
-                    Instagram
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="youtube"
-                    href="https://www.youtube.com/user/voxcinemas"
-                    title="Follow us on YouTube"
-                  >
-                    YouTube
-                  </a>
-                </li>
-              </ul>
+            <div>
+              <h5>STAY IN TOUCH</h5>
+              <div className="grid grid-flow-col mt-[20px]">
+                <a
+                  className="bg-[#474749] rounded-full w-10 h-10 grid place-items-center"
+                  href="https://www.facebook.com/voxcinemas"
+                  title="Follow us on Facebook"
+                >
+                  <ImFacebook />
+                </a>
+
+                <a
+                  className="bg-[#474749] rounded-full w-10 h-10 grid place-items-center"
+                  href="https://www.twitter.com/voxcinemas"
+                  title="Follow us on Twitter"
+                >
+                  <ImTwitter />
+                </a>
+
+                <a
+                  className="bg-[#474749] rounded-full w-10 h-10 grid place-items-center"
+                  href="https://www.instagram.com/voxcinemas"
+                  title="Follow us on Instagram"
+                >
+                  <FiInstagram />
+                </a>
+
+                <a
+                  className="bg-[#474749] rounded-full w-10 h-10 grid place-items-center"
+                  href="https://www.youtube.com/user/voxcinemas"
+                  title="Follow us on YouTube"
+                >
+                  <ImYoutube />
+                </a>
+              </div>
             </div>
           </article>
 

@@ -93,11 +93,11 @@ const uploadMovieCover = async (req, res) => {
 const deleteMovie = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such movie" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(400).json({ error: "No such movie" });
+  // }
 
-  const movie = await Movie.findOneAndDelete({ _id: id });
+  const movie = await Movie.findOneAndDelete({ nameId: id });
 
   if (!movie) {
     return res.status(400).json({ error: "No such movie" });
@@ -110,12 +110,12 @@ const deleteMovie = async (req, res) => {
 const updateMovie = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such movie" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(400).json({ error: "No such movie" });
+  // }
 
   const movie = await Movie.findOneAndUpdate(
-    { _id: id },
+    { nameId: id },
     {
       ...req.body,
     }
