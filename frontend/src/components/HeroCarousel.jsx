@@ -7,27 +7,27 @@ const HeroCarousel = () => {
   const itemsList = [
     {
       link: "https://uae.voxcinemas.com/back-to-school-promo",
-      src: "http://localhost:3000/assets/Overarching_Campaign_visual_2_1692686238.jpg",
+      src: "https://vox-cinema.netlify.app/assets/Overarching_Campaign_visual_2_1692686238.jpg",
     },
     {
       link: "https://uae.voxcinemas.com/movies/the-equalizer-3#showtimes",
-      src: "http://localhost:3000/assets/The-Equalizer-3_1693403014.jpg",
+      src: "https://vox-cinema.netlify.app/assets/The-Equalizer-3_1693403014.jpg",
     },
     {
       link: "https://uae.voxcinemas.com/movies/rdx-malayalam#showtimes",
-      src: "http://localhost:3000/assets/RDX_EN_1693403150.png",
+      src: "https://vox-cinema.netlify.app/assets/RDX_EN_1693403150.png",
     },
     {
       link: "https://uae.voxcinemas.com/movies/blue-beetle#showtimes",
-      src: "http://localhost:3000/assets/BLBT_VOX_HB_EN_1692713710.jpg",
+      src: "https://vox-cinema.netlify.app/assets/BLBT_VOX_HB_EN_1692713710.jpg",
     },
     {
       link: "https://uae.voxcinemas.com/movies/jawan-hindi#showtimes",
-      src: "http://localhost:3000/assets/Jawan-pre_1692090704.jpg",
+      src: "https://vox-cinema.netlify.app/assets/Jawan-pre_1692090704.jpg",
     },
     {
       link: "",
-      src: "http://localhost:3000/assets/F_B_Sweetinc_30off_880x440_copy_1693805184.jpg",
+      src: "https://vox-cinema.netlify.app/assets/F_B_Sweetinc_30off_880x440_copy_1693805184.jpg",
     },
   ];
 
