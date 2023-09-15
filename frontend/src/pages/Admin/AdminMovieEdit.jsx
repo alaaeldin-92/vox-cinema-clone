@@ -100,6 +100,8 @@ export const AdminMovieEdit = () => {
         pg,
         language,
         description,
+        genres,
+        starring,
       };
 
       const response = await fetch(
