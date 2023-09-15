@@ -12178,7 +12178,7 @@ input[type="checkbox"] + span::after {
   display: inline-block;
   color: #000;
   color: var(--color-form-checkbox-checked);
-  content: "";
+  content: "✔️";
   font-family: "Iconic";
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -12192,7 +12192,7 @@ input[type="checkbox"] + span::after {
   vertical-align: baseline;
   width: 1em;
   display: none;
-  left: 3px;
+  left: -1px;
   position: absolute;
   top: 5px;
 }

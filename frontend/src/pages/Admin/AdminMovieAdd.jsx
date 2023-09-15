@@ -1,25 +1,89 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { MoviesContext } from "../../context/MoviesContext";
 import { Link } from "react-router-dom";
+import { BiImage } from "react-icons/bi";
+
+import genre from "../../data/genre.json";
 
 const AdminMovieAdd = () => {
   const { dispatch } = useContext(MoviesContext);
 
+  const [genresItems, setGenres] = useState({
+    genres: [],
+    response: [],
+  });
+
+  const checkboxRef = useRef([]);
+
   const [title, settitle] = useState("");
-  const [file, setFile] = useState([]);
   const [yt_url, setyt_url] = useState("");
   const [pg, setpg] = useState("");
+  const [starring, setstarring] = useState("");
   const [language, setlanguage] = useState("");
   const [description, setdescription] = useState("");
+  const [releaseDate, setreleaseDate] = useState(new Date());
+  const [runningTime, setrunningTime] = useState("");
 
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+
+  const inputFileRef = useRef(null);
+  const imageRef = useRef(null);
+
+  const [genreActive, setgenreActive] = useState(false);
+  const toggleGenreClass = () => {
+    setgenreActive(!genreActive);
+  };
+
+  const handleFileUpload = async (e) => {
+    const fileUpload = new FormData();
+    fileUpload.set("avatar", e.target.files[0]);
+
+    // upload file
+    try {
+      let response = await fetch("/api/movies/upload", {
+        method: "POST",
+        body: fileUpload,
+      });
+      let json = await response.json();
+
+      if (response.ok) {
+        imageRef.current.src = "http://localhost:3000/assets/" + json.fileName;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGenre = (e) => {
+    //https://www.geeksforgeeks.org/how-to-get-multiple-checkbox-values-in-react-js/
+
+    // Destructuring
+    const { value, checked } = e.target;
+    const { genres } = genresItems;
+
+    // Case 1 : The user checks the box
+    if (checked) {
+      setGenres({
+        genres: [...genres, value],
+        response: [...genres, value],
+      });
+    }
+
+    // Case 2  : The user unchecks the box
+    else {
+      setGenres({
+        genres: genres.filter((e) => e !== value),
+        response: genres.filter((e) => e !== value),
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const fileUpload = new FormData();
-    fileUpload.set("avatar", file);
+    fileUpload.set("avatar", inputFileRef.current.files[0]);
 
     setError(null);
     setEmptyFields([]);
@@ -33,14 +97,19 @@ const AdminMovieAdd = () => {
       let json = await response.json();
       if (response.ok) {
         try {
+          console.log(description);
           const movie = {
             nameId: title.replace(/\s+/g, "-"),
             title,
-            cover_url: "http://localhost:3000/assets/" + file.name,
+            runningTime,
+            genres: genresItems.response.join(", "),
+            cover_url: imageRef.current.src,
             yt_url: yt_url.split("/").pop(),
+            releaseDate,
             pg,
             language,
             description,
+            starring,
           };
 
           response = await fetch("/api/movies", {
@@ -57,13 +126,6 @@ const AdminMovieAdd = () => {
             setEmptyFields(json.emptyFields);
           }
           if (response.ok) {
-            // settitle("");
-            // setyt_url("");
-            // setpg("");
-            // setlanguage("");
-            // setdescription("");
-            // setError(null);
-            // setEmptyFields([]);
             dispatch({ type: "CREATE_MOVIE", payload: json });
             window.location.assign("http://localhost:3000/admin");
           }
@@ -79,165 +141,250 @@ const AdminMovieAdd = () => {
     }
   };
   return (
-    <div className="grid place-content-center h-[100vh] max-w-[900px] mx-auto">
-      <div className="grid gap-12 place-items-center">
-        <Link to="/">
-          <img
-            src="https://d1qg2tinnmsnxd.cloudfront.net/shared/img/vox_logo_dark.svg"
-            alt="#"
-            className="w-100 h-14 logo-vox"
-          ></img>
-        </Link>
-
-        <form className="grid items-center grid-cols-2 gap-x-4 gap-y-2">
-          <input
-            type="text"
-            onChange={(e) => settitle(e.target.value)}
-            placeholder="Movie Title"
-            value={title}
-            className={`addMovieInput ${
-              emptyFields.includes("title") ? "error" : ""
-            } `}
-            id="title"
-          />
-
-          {/* <div className="form-item">
-            <input
-              type="text"
-              onChange={(e) => settitle(e.target.value)}
-              value={title}
-              className={emptyFields.includes("title") ? "error" : ""}
-              id="title"
-            />
-            <label htmlFor="title">Movie Title</label>
+    <div className="max-w-[900px] mx-auto place-items-center flex flex-col gap-20 my-[100px]">
+      <Link to="/admin">
+        <img
+          src="https://d1qg2tinnmsnxd.cloudfront.net/shared/img/vox_logo_dark.svg"
+          alt="#"
+          className="w-100 h-14 logo-vox"
+        ></img>
+      </Link>
+      <form className="grid grid-cols-5 gap-8">
+        <div className="col-span-2 flex flex-col gap-8">
+          {/* <div className="flex gap-4">
+            <h1 className="text-[28px] font-bold">
+              <input
+                onChange={(e) => settitle(e.target.value)}
+                value={title}
+                id="title"
+                placeholder="Movie Name"
+                className={` text-[16px] font-normal ${
+                  emptyFields.includes("title") ? "error" : ""
+                } `}
+              />
+            </h1>
           </div> */}
-
-          <input
-            type="number"
-            min="5"
-            onChange={(e) => setpg(e.target.value)}
-            placeholder="Parental Guidance"
-            value={pg}
-            className={`addMovieInput ${
-              emptyFields.includes("pg") ? "error" : ""
+          <div
+            onClick={() => {
+              inputFileRef.current.click();
+            }}
+            className={`movie-cover ${
+              emptyFields.includes("avatar") ? "border-4 border-[#e7195a]" : ""
             } `}
-            id="pg"
-          />
-
-          {/* <div className="form-item">
-            <input
-              type="text"
-              onChange={(e) => setpg(e.target.value)}
-              value={pg}
-              className={emptyFields.includes("pg") ? "error" : ""}
-              id="pg"
-            />
-            <label htmlFor="pg">Parental Guidance</label>
-          </div> */}
-
-          <input
-            type="text"
-            onChange={(e) => setyt_url(e.target.value)}
-            placeholder="YouTube Link"
-            value={yt_url}
-            className={`addMovieInput ${
-              emptyFields.includes("yt_url") ? "error" : ""
-            } `}
-            id="yt_url"
-          />
-
-          {/* <div className="form-item">
-            <input
-              type="text"
-              onChange={(e) => setyt_url(e.target.value)}
-              value={yt_url}
-              className={emptyFields.includes("yt_url") ? "error" : ""}
-              id="yt_url"
-            />
-            <label htmlFor="yt_url">YouTube Embed URL</label>
-          </div> */}
-
-          <select
-            onChange={(e) => setlanguage(e.target.value)}
-            value={language}
-            className={`addMovieInput ${
-              emptyFields.includes("language") ? "error" : ""
-            } `}
-            id="language"
           >
-            <option value="" disabled selected>
-              Language
-            </option>
-            <option value="English">English</option>
-            <option value="Arabic">Arabic</option>
-            <option value="Tamil">Tamil</option>
-          </select>
-
-          {/* <div className="form-item">
-            <input
-              type="text"
-              id="language"
-              onChange={(e) => setlanguage(e.target.value)}
-              value={language}
-              className={emptyFields.includes("language") ? "error" : ""}
+            <img
+              ref={imageRef}
+              src="http://localhost:3000/assets/no-image.jpg"
+              className="movie-cover-image"
             />
-            <label htmlFor="language">Language</label>
-          </div> */}
+            <div className="movie-cover-overlay">
+              <div className="movie-cover-overlay-text">
+                <BiImage />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-3 flex flex-col gap-5 max-w-[500px] mx-auto">
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Title:</div>
+            <div className="col-span-3">
+              <input
+                onChange={(e) => settitle(e.target.value)}
+                value={title}
+                id="title"
+                className={`${emptyFields.includes("title") ? "error" : ""} `}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">PG:</div>
+            <div className="col-span-3">
+              <input
+                type="number"
+                min="5"
+                onChange={(e) => setpg(e.target.value)}
+                value={pg}
+                className={`${emptyFields.includes("pg") ? "error" : ""} `}
+                id="pg"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Genre:</div>
+            <div className="col-span-3">
+              <div
+                className={`quick-filter ${
+                  emptyFields.includes("genres")
+                    ? "border border-[#e7195a]"
+                    : ""
+                } `}
+              >
+                <div
+                  className={`pseudo-multi-select cinemas ${
+                    genreActive ? "active" : ""
+                  } `}
+                  onClick={toggleGenreClass}
+                  style={{ width: "100%", maxWidth: "100%" }}
+                >
+                  <span
+                    className="label"
+                    data-none="Select Your Genre(s)"
+                    data-selected="{0} Genre(s) Selected"
+                  >
+                    {genresItems.response.length === 0
+                      ? "Select Your Genre(s)"
+                      : genresItems.response.join(", ")}
+                  </span>
+                  <div
+                    className="dropdown"
+                    style={genreActive ? { display: "block" } : {}}
+                  >
+                    <div className="scroll has-toolbar">
+                      <ol className="values">
+                        {genre &&
+                          genre.map((g, index) => {
+                            return (
+                              <li key={index}>
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    name="c"
+                                    value={g.value}
+                                    onChange={handleGenre}
+                                    ref={(element) => {
+                                      checkboxRef.current.push(element);
+                                    }}
+                                  />
+                                  <span>{g.label}</span>
+                                </label>
+                              </li>
+                            );
+                          })}
+                      </ol>
+                    </div>
 
-          <textarea
-            onChange={(e) => setdescription(e.target.value)}
-            placeholder="Movie Description"
-            value={description}
-            className={`addMovieInput ${
-              emptyFields.includes("description") ? "error" : ""
-            } `}
-            id="description"
-            style={{ height: "120px" }}
-          ></textarea>
-
-          {/* <div className="form-item">
-            <input
-              id="description"
-              onChange={(e) => setdescription(e.target.value)}
-              value={description}
-              className={emptyFields.includes("description") ? "error" : ""}
-            />
-            <label htmlFor="description">Description</label>
-          </div> */}
+                    <div className="toolbar">
+                      <a
+                        className="action primary outline clear"
+                        onClick={() => {
+                          setGenres({
+                            genres: [],
+                            response: [],
+                          });
+                        }}
+                      >
+                        Clear All
+                      </a>
+                      <a className="action primary done">Done</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">YouTube:</div>
+            <div className="col-span-3">
+              <input
+                onChange={(e) => setyt_url(e.target.value)}
+                value={yt_url}
+                id="yt_url"
+                className={`  ${
+                  emptyFields.includes("yt_url") ? "error" : ""
+                } `}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Time (min):</div>
+            <div className="col-span-3">
+              <input
+                onChange={(e) => setrunningTime(e.target.value)}
+                value={runningTime}
+                id="runningTime"
+                className={` ${
+                  emptyFields.includes("runningTime") ? "error" : ""
+                } `}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Release Date:</div>
+            <div className="col-span-3">
+              <input
+                type="date"
+                onChange={(e) => setreleaseDate(e.target.value)}
+                value={releaseDate}
+                className={` ${
+                  emptyFields.includes("releaseDate") ? "error" : ""
+                } `}
+                id="releaseDate"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Starring:</div>
+            <div className="col-span-3">
+              <input
+                onChange={(e) => setstarring(e.target.value)}
+                value={starring}
+                id="starring"
+                className={`  ${
+                  emptyFields.includes("starring") ? "error" : ""
+                } `}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Languages:</div>
+            <div className="col-span-3">
+              <input
+                onChange={(e) => setlanguage(e.target.value)}
+                value={language}
+                id="language"
+                className={` ${
+                  emptyFields.includes("language") ? "error" : ""
+                } `}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="col-span-1">Description:</div>
+            <div className="col-span-3">
+              <textarea
+                onChange={(e) => setdescription(e.target.value)}
+                value={description}
+                style={{
+                  height: "150px",
+                  borderColor: emptyFields.includes("description")
+                    ? "#e7195a"
+                    : "#474749",
+                }}
+                id="description"
+                className="p-4"
+              />
+            </div>
+          </div>
 
           <input
             type="file"
-            className={`addMovieInput ${
-              emptyFields.includes("avatar") ? "error" : ""
-            } `}
+            className="invisible w-0 h-0"
             name="avatar"
+            ref={inputFileRef}
             onChange={(e) => {
-              setFile(e.target.files[0]);
+              handleFileUpload(e);
             }}
-            style={{ height: "120px" }}
           />
-
-          {/* <div className="form-item">
-            <input
-              type="file"
-              className={emptyFields.includes("avatar") ? "error" : ""}
-              name="avatar"
-              onChange={(e) => {
-                setFile(e.target.files[0]);
-              }}
-            />
-          </div> */}
-        </form>
-
-        <div>
-          <button
-            onClick={handleSubmit}
-            className="w-[400px] col-span-2 text-center cursor-pointer bg-[#d40e7d] text-white text-md py-[14px] font-bold "
-          >
-            Submit
-          </button>
-          {error && <div className="error">{error}</div>}
         </div>
+      </form>
+      <div className="mb-[100px]">
+        <button
+          onClick={handleSubmit}
+          className="w-[400px]  text-center cursor-pointer bg-[#d40e7d] text-white text-md py-[14px] font-bold "
+        >
+          Submit
+        </button>
+        {error && <div className="error">{error}</div>}
       </div>
     </div>
   );

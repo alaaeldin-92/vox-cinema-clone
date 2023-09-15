@@ -32,6 +32,22 @@ const movieSchema = new Schema(
       type: String,
       required: true,
     },
+    releaseDate: {
+      type: Date,
+      required: true,
+    },
+    runningTime: {
+      type: String,
+      required: true,
+    },
+    genres: {
+      type: String,
+      required: true,
+    },
+    starring: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

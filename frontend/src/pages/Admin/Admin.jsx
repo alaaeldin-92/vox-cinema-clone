@@ -1,27 +1,28 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { MoviesContext } from "../../context/MoviesContext";
 import { Link } from "react-router-dom";
-import {
-  AiOutlineSearch,
-  AiFillCaretDown,
-  AiOutlinePlus,
-} from "react-icons/ai";
-import Header from "../../components/Header";
+import { AiOutlineSearch, AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
+import AdminHeader from "../../components/AdminHeader";
 import Footer from "../../components/Footer";
-import AllMoviesSkeleton from "../../components/Admin/AllMoviesSkeleton";
+import AdminSkeleton from "./AdminSkeleton";
 
 const Admin = () => {
   const { movies, dispatch } = useContext(MoviesContext);
 
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
   const orderType = useRef(null);
   const orderParameter = useRef(null);
+  const searchRef = useRef(null);
 
   const [activeTab, setActiveTab] = useState("movies");
   const [filteredList, setFilteredList] = useState(null);
 
   const filterBySearch = (event) => {
+    setSearchText(event.target.value);
+    setLoading(true);
+
     // Access input value
     const query = event.target.value;
     // Create copy of item list
@@ -37,6 +38,11 @@ const Admin = () => {
     });
     // Trigger render with updated values
     setFilteredList(updatedList);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
   };
 
   const handleOrderBy = (e) => {
@@ -98,7 +104,7 @@ const Admin = () => {
   }, [dispatch]);
   return (
     <div>
-      <Header />
+      <AdminHeader />
 
       <div className="max-w-[1200px] my-[100px] p-2 mx-auto grid grid-cols-6 gap-6">
         <div className="col-span-1">
@@ -167,6 +173,7 @@ const Admin = () => {
                   height: "50px",
                 }}
                 id="search"
+                ref={searchRef}
                 onChange={filterBySearch}
               />
               <label
@@ -174,6 +181,22 @@ const Admin = () => {
                 className="absolute left-[15px] top-[18px]"
               >
                 <AiOutlineSearch />
+              </label>
+
+              <label
+                htmlFor="search"
+                className="absolute right-[15px] top-[18px]"
+              >
+                {searchText && (
+                  <AiOutlineClose
+                    className="text-sm"
+                    onClick={(e) => {
+                      searchRef.current.value = "";
+                      setSearchText("");
+                      handleOrderBy(e);
+                    }}
+                  />
+                )}
               </label>
             </div>
 
@@ -207,7 +230,7 @@ const Admin = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-6">
-            {loading && <AllMoviesSkeleton />}
+            {loading && <AdminSkeleton />}
 
             {!loading &&
               filteredList.map((movie) => (

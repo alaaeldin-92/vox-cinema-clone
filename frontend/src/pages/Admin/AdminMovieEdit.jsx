@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import Header from "../../components/Admin/Header";
+import Header from "../../components/AdminHeader";
 import Footer from "../../components/Footer";
 import { BiImage } from "react-icons/bi";
 import { MoviesContext } from "../../context/MoviesContext";
@@ -22,9 +22,9 @@ export const AdminMovieEdit = () => {
   const [language, setlanguage] = useState("");
   const [description, setdescription] = useState("");
 
-  const [genre, setgenre] = useState("");
+  const [genres, setgenres] = useState("");
   const [runningTime, setrunningTime] = useState("");
-  const [releaseDate, setreleaseDate] = useState("");
+  const [releaseDate, setreleaseDate] = useState(new Date());
   const [starring, setstarring] = useState("");
 
   const [error, setError] = useState("");
@@ -37,12 +37,17 @@ export const AdminMovieEdit = () => {
       const json = await response.json();
 
       settitle(json[0].title);
+      setreleaseDate(
+        new Date(json[0].releaseDate).toISOString().substring(0, 10)
+      );
+      setrunningTime(json[0].runningTime);
       setcover_url(json[0].cover_url);
       setyt_url(json[0].yt_url);
       setpg(json[0].pg);
       setlanguage(json[0].language);
       setdescription(json[0].description);
-      setgenre(json[0].genre);
+      setgenres(json[0].genres);
+      setstarring(json[0].starring);
 
       setLoading(false);
     };
@@ -72,8 +77,8 @@ export const AdminMovieEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const fileUpload = new FormData();
-    fileUpload.set("avatar", file);
+    // const fileUpload = new FormData();
+    // fileUpload.set("avatar", file);
 
     setError(null);
     setEmptyFields([]);
@@ -82,6 +87,8 @@ export const AdminMovieEdit = () => {
       const movie = {
         nameId: title.replace(/\s+/g, "-"),
         title,
+        releaseDate,
+        runningTime,
         cover_url: imageRef.current.src,
         yt_url,
         pg,
@@ -184,9 +191,9 @@ export const AdminMovieEdit = () => {
                 <div className="col-span-1">Genre:</div>
                 <div className="col-span-3">
                   <input
-                    onChange={(e) => setgenre(e.target.value)}
-                    value={genre}
-                    id="genre"
+                    onChange={(e) => setgenres(e.target.value)}
+                    value={genres}
+                    id="genres"
                   />
                 </div>
               </div>

@@ -28,12 +28,35 @@ const getMovie = async (req, res) => {
 
 // create a new movie
 const createMovie = async (req, res) => {
-  const { nameId, title, cover_url, yt_url, pg, language, description } =
-    req.body;
+  const {
+    nameId,
+    title,
+    releaseDate,
+    runningTime,
+    genres,
+    starring,
+    cover_url,
+    yt_url,
+    pg,
+    language,
+    description,
+  } = req.body;
   let emptyFields = [];
 
   if (!title) {
     emptyFields.push("title");
+  }
+  if (!releaseDate.value) {
+    emptyFields.push("releaseDate");
+  }
+  if (!runningTime) {
+    emptyFields.push("runningTime");
+  }
+  if (!starring) {
+    emptyFields.push("starring");
+  }
+  if (!genres) {
+    emptyFields.push("genres");
   }
   if (!cover_url) {
     emptyFields.push("avatar");
@@ -58,11 +81,15 @@ const createMovie = async (req, res) => {
     const movie = await Movie.create({
       nameId,
       title,
+      releaseDate,
+      runningTime,
       cover_url,
       yt_url,
       pg,
       language,
       description,
+      genres,
+      starring,
     });
     res.status(200).json({ movie });
   }

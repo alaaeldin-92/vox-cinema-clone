@@ -1,10 +1,10 @@
 import React from "react";
 
-const Header = () => {
+const AdminHeader = () => {
   return (
     <header role="banner">
       <section>
-        <a class="brand vox" href="/" title="VOX Cinemas">
+        <a class="brand vox" href="/admin" title="VOX Cinemas">
           VOX Cinemas
         </a>
 
@@ -72,4 +72,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

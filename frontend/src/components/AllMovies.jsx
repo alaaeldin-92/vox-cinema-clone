@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react";
 import { MoviesContext } from "../context/MoviesContext";
 import MovieDetails from "./MovieDetails";
 import AllMoviesSkeleton from "./AllMoviesSkeleton";
-// import AllMoviesSkeleton from "./AllMoviesSkeleton";
 
 const AllMovies = () => {
   const { movies, dispatch } = useContext(MoviesContext);

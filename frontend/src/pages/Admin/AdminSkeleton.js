@@ -2,7 +2,7 @@ import React from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const AllMoviesSkeleton = () => {
+const AdminSkeleton = () => {
   return Array(9)
     .fill()
     .map((item, index) => {
@@ -28,4 +28,4 @@ const AllMoviesSkeleton = () => {
     });
 };
 
-export default AllMoviesSkeleton;
+export default AdminSkeleton;

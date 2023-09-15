@@ -45,15 +45,19 @@ const OneMovie = () => {
               <div className="col-span-3 flex flex-col gap-5 max-w-[500px] mx-auto">
                 <div className="grid grid-cols-4">
                   <div className="col-span-1">Genre:</div>
-                  <div className="col-span-3">{movie.genre}</div>
+                  <div className="col-span-3">{movie.genres}</div>
                 </div>
                 <div className="grid grid-cols-4">
                   <div className="col-span-1">Running Time:</div>
-                  <div className="col-span-3">{movie.runningTime}</div>
+                  <div className="col-span-3">
+                    {movie.runningTime + " minutes"}
+                  </div>
                 </div>
                 <div className="grid grid-cols-4">
                   <div className="col-span-1">Release Date:</div>
-                  <div className="col-span-3">{movie.releaseDate}</div>
+                  <div className="col-span-3">
+                    {new Date(movie.releaseDate).toLocaleDateString("en-GB")}
+                  </div>
                 </div>
                 <div className="grid grid-cols-4">
                   <div className="col-span-1">Starring:</div>
@@ -65,7 +69,10 @@ const OneMovie = () => {
                 </div>
                 <div className="grid grid-cols-4">
                   <div className="col-span-1">Description:</div>
-                  <div className="col-span-3">{movie.description}</div>
+
+                  <div className="col-span-3 h-[150px] overflow-auto pr-4">
+                    {movie.description}
+                  </div>
                 </div>
 
                 <Link

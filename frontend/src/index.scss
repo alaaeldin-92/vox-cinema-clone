@@ -68,13 +68,13 @@ input.error {
   width: 100%;
   color: white;
   height: 50px;
-  background-color: #171717;
+  // background-color: #171717;
   padding: 12px;
   border: 1px solid white;
 }
 
 .addMovieInput:focus {
-  background-color: black;
+  // background-color: black;
 }
 
 .addMovieInput::placeholder {
