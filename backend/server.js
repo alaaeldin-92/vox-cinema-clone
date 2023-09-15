@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const movieRoutes = require("./routes/movies");
 const fileUpload = require("express-fileupload");
 
+const PORT = process.env.PORT || 8800;
+
 // express app
 const app = express();
 
@@ -25,8 +27,8 @@ mongoose
   .then(() => {
     console.log("connected to database");
     // listen to port
-    app.listen(process.env.PORT, () => {
-      console.log("listening for requests on port", process.env.PORT);
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
   })
   .catch((err) => {
