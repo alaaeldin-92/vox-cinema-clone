@@ -94,10 +94,13 @@ const AdminMovieAdd = () => {
 
     // upload file
     try {
-      let response = await fetch("/api/movies/upload", {
-        method: "POST",
-        body: fileUpload,
-      });
+      let response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies/upload",
+        {
+          method: "POST",
+          body: fileUpload,
+        }
+      );
       let json = await response.json();
       if (response.ok) {
         try {
@@ -131,7 +134,7 @@ const AdminMovieAdd = () => {
           }
           if (response.ok) {
             dispatch({ type: "CREATE_MOVIE", payload: json });
-            window.location.assign("http://localhost:3000/admin");
+            window.location.assign("https://vox-cinema.netlify.app/admin");
           }
         } catch (e) {
           console.error(e.message);
@@ -178,7 +181,7 @@ const AdminMovieAdd = () => {
           >
             <img
               ref={imageRef}
-              src="http://localhost:3000/assets/no-image.jpg"
+              src="https://vox-cinema.netlify.app/assets/no-image.jpg"
               className="movie-cover-image"
             />
             <div className="movie-cover-overlay">
