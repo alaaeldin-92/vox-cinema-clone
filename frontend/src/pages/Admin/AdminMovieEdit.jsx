@@ -33,7 +33,9 @@ export const AdminMovieEdit = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchMovie = async () => {
-      const response = await fetch("/api/movies/" + id);
+      const response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies/" + id
+      );
       const json = await response.json();
 
       settitle(json[0].title);
@@ -60,14 +62,18 @@ export const AdminMovieEdit = () => {
 
     // upload file
     try {
-      let response = await fetch("/api/movies/upload", {
-        method: "POST",
-        body: fileUpload,
-      });
+      let response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies/upload",
+        {
+          method: "POST",
+          body: fileUpload,
+        }
+      );
       let json = await response.json();
 
       if (response.ok) {
-        imageRef.current.src = "http://localhost:3000/assets/" + json.fileName;
+        imageRef.current.src =
+          "https://vox-cinema.netlify.app/assets/" + json.fileName;
       }
     } catch (error) {
       console.log(error);
@@ -96,13 +102,16 @@ export const AdminMovieEdit = () => {
         description,
       };
 
-      const response = await fetch("/api/movies/" + id, {
-        method: "PATCH",
-        body: JSON.stringify(movie),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies/" + id,
+        {
+          method: "PATCH",
+          body: JSON.stringify(movie),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const json = await response.json();
 
       if (!response.ok) {
@@ -111,7 +120,7 @@ export const AdminMovieEdit = () => {
       }
       if (response.ok) {
         dispatch({ type: "UPDATE_MOVIE", payload: json });
-        window.location.assign("http://localhost:3000/admin");
+        window.location.assign("https://vox-cinema.netlify.app/admin");
       }
     } catch (e) {
       console.error(e.message);
@@ -124,18 +133,21 @@ export const AdminMovieEdit = () => {
         nameId: title.replace(/\s+/g, "-"),
       };
 
-      const response = await fetch("/api/movies/" + id, {
-        method: "DELETE",
-        body: JSON.stringify(movie),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies/" + id,
+        {
+          method: "DELETE",
+          body: JSON.stringify(movie),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const json = await response.json();
 
       if (response.ok) {
         dispatch({ type: "DELETE_MOVIE", payload: json });
-        window.location.assign("http://localhost:3000/admin");
+        window.location.assign("https://vox-cinema.netlify.app/admin");
       }
     } catch (e) {
       console.error(e.message);
