@@ -41,14 +41,18 @@ const AdminMovieAdd = () => {
 
     // upload file
     try {
-      let response = await fetch("/api/movies/upload", {
-        method: "POST",
-        body: fileUpload,
-      });
+      let response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies/upload",
+        {
+          method: "POST",
+          body: fileUpload,
+        }
+      );
       let json = await response.json();
 
       if (response.ok) {
-        imageRef.current.src = "http://localhost:3000/assets/" + json.fileName;
+        imageRef.current.src =
+          "https://vox-cinema.netlify.app/assets/" + json.fileName;
       }
     } catch (error) {
       console.log(error);

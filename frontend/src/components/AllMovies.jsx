@@ -8,7 +8,9 @@ const AllMovies = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const response = await fetch("/api/movies");
+      const response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies"
+      );
       const json = await response.json();
 
       // if (response.ok) {

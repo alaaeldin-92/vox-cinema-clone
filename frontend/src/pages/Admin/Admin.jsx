@@ -82,7 +82,9 @@ const Admin = () => {
     window.scrollTo(0, 0);
 
     const fetchMovies = async () => {
-      const response = await fetch("/api/movies");
+      const response = await fetch(
+        "https://vox-web-service.onrender.com/api/movies"
+      );
       const json = await response.json();
 
       // if (response.ok) {
