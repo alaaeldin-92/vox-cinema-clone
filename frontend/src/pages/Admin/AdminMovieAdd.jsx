@@ -394,7 +394,7 @@ const AdminMovieAdd = () => {
         >
           Submit
         </button>
-        {error && <div className="error">{error}</div>}
+        {error && <div className="error text-center">{error}</div>}
       </div>
     </div>
   );
