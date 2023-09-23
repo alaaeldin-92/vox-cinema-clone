@@ -119,13 +119,16 @@ const AdminMovieAdd = () => {
             starring,
           };
 
-          response = await fetch("/api/movies", {
-            method: "POST",
-            body: JSON.stringify(movie),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          response = await fetch(
+            "https://vox-web-service.onrender.com/api/movies",
+            {
+              method: "POST",
+              body: JSON.stringify(movie),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
           json = await response.json();
 
           if (!response.ok) {
