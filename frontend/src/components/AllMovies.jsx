@@ -8,25 +8,33 @@ const AllMovies = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const response = await fetch(
-        "https://vox-web-service.onrender.com/api/movies"
-      );
-      const json = await response.json();
+      try {
+        const response = await fetch(
+          "https://vox-web-service.onrender.com/api/movies",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const json = await response.json();
 
-      // if (response.ok) {
-      //   dispatch({ type: "SET_MOVIES", payload: json });
-      // }
-
-      if (response.ok) {
-        const timer = setTimeout(() => {
-          dispatch({ type: "SET_MOVIES", payload: json });
-        }, 1000);
-        return () => clearTimeout(timer);
+        if (response.ok) {
+          const timer = setTimeout(() => {
+            dispatch({ type: "SET_MOVIES", payload: json });
+          }, 1000);
+          return () => clearTimeout(timer);
+        } else {
+          console.error(`Error fetching movies: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
       }
     };
 
     fetchMovies();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

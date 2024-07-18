@@ -36,3 +36,12 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+const corsOptions = {
+  origin: "https://vox-cinema.netlify.app/",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
