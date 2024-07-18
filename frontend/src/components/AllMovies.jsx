@@ -39,12 +39,12 @@ const AllMovies = () => {
   return (
     <div>
       {!movies && (
-        <div className="mx-auto max-w-[900px] grid grid-cols-3 gap-16 my-[120px]">
+        <div className="mx-auto max-w-[900px] grid grid-cols-1 p-4 md:p-0 sm:grid-cols-2 md:grid-cols-3 gap-16 my-[120px]">
           <AllMoviesSkeleton />
         </div>
       )}
 
-      <div className="mx-auto max-w-[900px] grid grid-cols-3 gap-16 my-[120px]">
+      <div className="mx-auto max-w-[900px] grid grid-cols-1 p-4 md:p-0 sm:grid-cols-2 md:grid-cols-3 gap-16 my-[120px]">
         {movies &&
           movies.map((movie) => <MovieDetails movie={movie} key={movie._id} />)}
       </div>

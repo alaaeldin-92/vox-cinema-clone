@@ -165,7 +165,7 @@ const Admin = () => {
         </div>
 
         <div className="col-span-5  ">
-          <div className="flex flex-row gap-8 mb-[60px] h-[50px] place-content-between">
+          <div className="flex flex-col md:flex-row gap-8 mb-[60px] h-[50px] place-content-between">
             <div className="relative">
               <input
                 placeholder="Search for a movie"
@@ -231,7 +231,7 @@ const Admin = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 p-4 md:p-0 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {loading && <AdminSkeleton />}
 
             {!loading &&
