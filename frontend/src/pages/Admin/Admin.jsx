@@ -103,7 +103,7 @@ const Admin = () => {
     };
 
     fetchMovies();
-  }, [dispatch]);
+  }, []);
   return (
     <div>
       <AdminHeader />

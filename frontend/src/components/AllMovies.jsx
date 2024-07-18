@@ -26,7 +26,7 @@ const AllMovies = () => {
     };
 
     fetchMovies();
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
